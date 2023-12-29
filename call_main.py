@@ -5,6 +5,7 @@ from  Ui_mainWindow import Ui_Form
 import sqlconnect
 import sys,os
 import pandas as pd
+import datetime
 
 file_path_txt = ""
 class CallMain(QMainWindow, Ui_Form):
@@ -61,13 +62,22 @@ class CallMain(QMainWindow, Ui_Form):
             return df
 
     def GetSampleInfo(self):
-        SQLdata=sqlconnect.Sqlfetch()
-        if isinstance(SQLdata,str):
+        searchdate = datetime.date.today() - datetime.timedelta(days=7)
+        SQL_parm=(str(searchdate),)
+        SQL_query = "SELECT d.Barcode,f.PatientName, d.LabGroupCode,d.TestDate, d.SampleNo,d.SampleState,d.ApplyItemCodes,d.ApplyItemNames \
+            FROM Exam_Sample as d INNER JOIN Exam_SamePatient as f on d.Barcode = f.Barcode WHERE d.SampleState=400 AND d.LabGroupCode = 'GK011' AND d.TestDate >= ?"
+        SQLdata=sqlconnect.Sqlfetch(SQL_query,SQL_parm)
+        table_head=['Barcode','PatientName','LabGroupCode','TestDate','SampleNo','SampleState','ApplyItemCodes','ApplyItemNames']
+        result = [dict(zip(table_head, row)) for row in SQLdata]  
+        if len(result):
+            pddata =pd.DataFrame(result)
+            pddata=pddata.set_index('Barcode')
+        if isinstance(pddata,str):
             return
         col = 0
-        for val in SQLdata.index:
+        for val in pddata.index:
             try:
-                data=SQLdata.loc[val]
+                data=pddata.loc[val]
                 #print(data)
                 row =[val,data[0],data[2].strftime('%Y-%m-%d'),data[6]]
                 for j in range(4):

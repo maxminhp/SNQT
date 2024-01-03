@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets,QtCore
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog,QWidget
 from PyQt5.QtGui import QStandardItemModel,QStandardItem
 from  Ui_mainWindow import Ui_Form
 import sqlconnect
@@ -8,7 +8,7 @@ import pandas as pd
 import datetime
 
 file_path_txt = ""
-class CallMain(QMainWindow, Ui_Form):
+class CallMain(QWidget, Ui_Form):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
@@ -34,6 +34,10 @@ class CallMain(QMainWindow, Ui_Form):
         self.tvSampleInfo.setColumnWidth(3,90)
         self.tvSampleInfo.setColumnWidth(4,50)
         self.tvSampleInfo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+
+    def initUI(self):
+        self.show()
+
 
     def Chg_sample(self,file_txt,dump=0):
         filename = file_txt
@@ -72,7 +76,11 @@ class CallMain(QMainWindow, Ui_Form):
         if len(result):
             pddata =pd.DataFrame(result)
             pddata=pddata.set_index('Barcode')
-        if isinstance(pddata,str):
+            if isinstance(pddata,str):
+                return
+        else:
+            message=QtWidgets.QMessageBox()
+            message.warning(self,"警告","当前没有过敏原待检测数据")
             return
         col = 0
         for val in pddata.index:

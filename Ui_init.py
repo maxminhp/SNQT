@@ -9,41 +9,48 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from qfluentwidgets import PushButton
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(380, 299)
+        MainWindow.resize(397, 299)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.PushGMY = PushButton(self.centralwidget)
-        self.PushGMY.setGeometry(QtCore.QRect(90, 40, 181, 41))
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(40, 10, 311, 231))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.layoutMain = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.layoutMain.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.layoutMain.setContentsMargins(10, 10, 10, 10)
+        self.layoutMain.setObjectName("layoutMain")
+        self.PushGMY = PushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(11)
         font.setBold(False)
         self.PushGMY.setFont(font)
         self.PushGMY.setObjectName("PushGMY")
-        self.PushQM = PushButton(self.centralwidget)
-        self.PushQM.setGeometry(QtCore.QRect(90, 110, 181, 41))
+        self.layoutMain.addWidget(self.PushGMY)
+        self.PushQM = PushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(11)
         font.setBold(False)
         self.PushQM.setFont(font)
         self.PushQM.setObjectName("PushQM")
-        self.PushQuit = PushButton(self.centralwidget)
-        self.PushQuit.setGeometry(QtCore.QRect(90, 180, 181, 41))
+        self.layoutMain.addWidget(self.PushQM)
+        self.PushQuit = PushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(11)
         font.setBold(False)
         self.PushQuit.setFont(font)
         self.PushQuit.setObjectName("PushQuit")
+        self.layoutMain.addWidget(self.PushQuit)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 380, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 397, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -59,4 +66,4 @@ class Ui_MainWindow(object):
         self.PushGMY.setText(_translate("MainWindow", "过敏原数据转换"))
         self.PushQM.setText(_translate("MainWindow", "千麦数据查询"))
         self.PushQuit.setText(_translate("MainWindow", "退      出"))
-
+from qfluentwidgets import PushButton

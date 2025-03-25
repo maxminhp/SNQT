@@ -1,0 +1,1 @@
+pyinstaller -F sel_main.py -w -i cwcl_logo1.ico
